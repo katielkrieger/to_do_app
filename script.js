@@ -1,4 +1,4 @@
-//alert("JavaScript is working");
+alert("JavaScript is working");
 //window.onload = function(){
 //	alert("window on load is working");
 

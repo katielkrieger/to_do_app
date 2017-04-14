@@ -1,7 +1,8 @@
+alert("JavaScript is working");
 window.onload = function(){
 
 	// bring list in from localStorage if applicable
-	alert("this is working");
+	
 	var listArr = JSON.parse(localStorage.getItem("currentList"));
 	var form = document.querySelector("form");
 	var list = document.querySelector("ul");

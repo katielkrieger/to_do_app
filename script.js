@@ -1,6 +1,6 @@
-alert("JavaScript is working");
-window.onload = function(){
-	alert("window on load is working");
+//alert("JavaScript is working");
+//window.onload = function(){
+//	alert("window on load is working");
 
 	// bring list in from localStorage if applicable
 	
@@ -85,4 +85,4 @@ window.onload = function(){
 		localStorage.setItem("currentList", JSON.stringify(listArr));
 	});
 
-};
+//};

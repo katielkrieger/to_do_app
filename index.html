@@ -10,11 +10,10 @@
     }
   </style>
   <script>
-  alert("javascript");
     window.onload = function(){
 
       // bring list in from localStorage if applicable
-      
+
       var listArr = JSON.parse(localStorage.getItem("currentList"));
       var form = document.querySelector("form");
       var list = document.querySelector("ul");
@@ -42,7 +41,6 @@
       // add a new To Do item
 
       form.addEventListener("submit", function(event){
-        event.preventDefault();
         var newToDo = document.createElement("li");
         newToDo.innerText = form.elements[0].value;
         newToDo.setAttribute("class", "list-group-item");
@@ -117,5 +115,6 @@
       <ul class="col-xs-12">
       </ul>
     </section>
+    
 </body>
 </html>

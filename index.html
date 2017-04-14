@@ -12,7 +12,6 @@
   <script>
   alert("javascript");
     window.onload = function(){
-      alert("loaded");
 
       // bring list in from localStorage if applicable
       
@@ -43,6 +42,7 @@
       // add a new To Do item
 
       form.addEventListener("submit", function(event){
+        event.preventDefault();
         var newToDo = document.createElement("li");
         newToDo.innerText = form.elements[0].value;
         newToDo.setAttribute("class", "list-group-item");

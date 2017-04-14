@@ -1,5 +1,6 @@
 alert("JavaScript is working");
 window.onload = function(){
+	alert("window on load is working");
 
 	// bring list in from localStorage if applicable
 	

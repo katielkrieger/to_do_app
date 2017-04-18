@@ -34,12 +34,12 @@
 
         // bring list in from localStorage if applicable
 
-        var listArr = JSON.parse(localStorage.getItem("currentList"));
+        var listArr = JSON.parse(localStorage.getItem("currentList")) || [];
         var $form = $("form");
         var $list = $("ul");
         var $span = $("<span>");
 
-        if(listArr !== undefined) {
+        if(listArr.length > 0) {
 
 
 

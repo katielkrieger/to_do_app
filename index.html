@@ -3,101 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <title>To Do App</title>
-  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <style>
     .disabled {
       text-decoration: line-through;
     }
+
   </style>
-  <script>
-    window.onload = function(){
-
-      // bring list in from localStorage if applicable
-
-      var listArr = JSON.parse(localStorage.getItem("currentList"));
-      var form = document.querySelector("form");
-      var list = document.querySelector("ul");
-      var span = document.createElement("span");
-
-      if(listArr.length > 0) {
-        for (var i=0; i<listArr.length; i++) {
-          var oldToDo = document.createElement("li");
-          oldToDo.innerText = listArr[i].todo;
-          oldToDo.setAttribute("class", "list-group-item");
-          oldToDo.setAttribute("ID", i);
-          if(listArr[i].done) {
-            oldToDo.setAttribute("class", "list-group-item disabled");
-          } else {
-            oldToDo.setAttribute("class", "list-group-item")
-          }
-          list.appendChild(oldToDo);
-        }
-      } else {
-        listArr = [];
-      }
-
-      var counter = listArr.length;
-
-      // add a new To Do item
-
-      form.addEventListener("submit", function(event){
-        event.preventDefault()
-        var newToDo = document.createElement("li");
-        newToDo.innerText = form.elements[0].value;
-        newToDo.setAttribute("class", "list-group-item");
-        newToDo.setAttribute("done", "false");
-        newToDo.setAttribute("ID", counter);
-        counter += 1;
-        if (newToDo.innerText.length === 0) {
-          form.preventDefault();
-        } else {
-          list.appendChild(newToDo);
-          listArr.push({
-            todo: newToDo.innerText,
-            done: false
-          });
-          localStorage.setItem("currentList", JSON.stringify(listArr));
-          form.reset();
-        }
-      });
-
-      // mark an item as completed
-
-      list.addEventListener("click", function(event){
-        if (event.target.getAttribute("class") === "list-group-item") {
-          event.target.setAttribute("class", "list-group-item disabled");
-          for (var i=0; i<listArr.length; i++) {
-            if(listArr[i].todo === event.target.innerText) {
-              listArr[i].done = true;
-            }
-          }
-        } else {
-          event.target.setAttribute("class", "list-group-item");
-          for (var i=0; i<listArr.length; i++) {
-            if(listArr[i].todo === event.target.innerText) {
-              listArr[i].done = false;
-            }
-          }
-        }
-        localStorage.setItem("currentList", JSON.stringify(listArr));
-      });
-
-      // remove an item
-
-      list.addEventListener("mouseover", function(event){
-        event.target.appendChild(span);
-        span.setAttribute("class", "glyphicon glyphicon-remove pull-right");
-      });
-
-      span.addEventListener("click", function(event){
-        event.target.parentNode.remove();
-        var id = event.target.parentNode.getAttribute("ID");
-        listArr.splice(id,1);
-        localStorage.setItem("currentList", JSON.stringify(listArr));
-      });
-
-    };
-  </script>
 </head>
 <body>
     <h1 class="header text-center">To Do</h1>
@@ -116,6 +28,103 @@
       <ul class="col-xs-12">
       </ul>
     </section>
-    
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.js"></script>
+    <script>
+      $(document).ready(function(){
+
+        // bring list in from localStorage if applicable
+
+        var listArr = JSON.parse(localStorage.getItem("currentList"));
+        var $form = $("form");
+        var $list = $("ul");
+        var $span = $("<span>");
+
+        if(listArr.length > 0) {
+
+
+
+          for (var i=0; i<listArr.length; i++) {
+            var $oldToDo = $("<li>")
+              .text(listArr[i].todo)
+              .addClass("list-group-item")
+              .attr("ID", i);
+            if(listArr[i].done) {
+              $oldToDo.attr("class", "list-group-item disabled");
+            } else {
+              $oldToDo.attr("class", "list-group-item")
+            }
+            $list.append($oldToDo);
+          }
+        } else {
+          listArr = [];
+        }
+
+        var counter = listArr.length;
+
+        // add a new To Do item
+
+        $form.on("submit", function(event){
+          var $newToDo = $("<li>")
+            .text($("form div input").val())
+            .attr("class", "list-group-item")
+            .attr("done", "false")
+            .attr("ID", counter);
+          counter++;
+          if ($("form div input").val() === undefined) {
+            $form.preventDefault();
+          } else {
+            $list.append($newToDo);
+            listArr.push({
+              todo: $("form div input").val(),
+              done: false
+            });
+            localStorage.setItem("currentList", JSON.stringify(listArr));
+            $form.trigger("reset");
+          }
+        });
+
+        // mark an item as completed
+
+        $list.on("click", "li", function(event){
+          if ($(event.target).attr("class") === "list-group-item") {
+            $(event.target).attr("class", "list-group-item disabled");
+            for (var i=0; i<listArr.length; i++) {
+              if(listArr[i].todo === $(event.target).text()) {
+                listArr[i].done = true;
+              }
+            }
+          } else {
+            $(event.target).attr("class", "list-group-item");
+            for (var i=0; i<listArr.length; i++) {
+              if(listArr[i].todo === $(event.target).text()) {
+                listArr[i].done = false;
+              }
+            }
+          }
+          localStorage.setItem("currentList", JSON.stringify(listArr));
+        });
+
+        // remove an item
+
+        $list.on("mouseenter", "li", function(event){
+          $span.attr("class", "glyphicon glyphicon-remove pull-right");
+          $(event.target).append($span);
+        });
+
+        $list.on("mouseleave", "li", function(event){
+          if($span.attr("class") === "glyphicon glyphicon-remove pull-right") {
+            $span.remove();
+          }
+        });
+        
+        $list.on("click", "span", function(event){
+          $(event.target).parent().remove();
+          var id = $(event.target).parent().attr("ID");
+          listArr.splice(id,1);
+          localStorage.setItem("currentList", JSON.stringify(listArr));
+        });
+
+      });
+</script>
 </body>
 </html>
